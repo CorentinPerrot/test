@@ -59,24 +59,6 @@ function load_job_listing_class_metaboxes() {
         jQuery("#publish").on("click", function() {
           save_metabox_students();
         });
-        jQuery("#add_student_job_listing").on("click", function() {
-          var input_login = jQuery("#add_student_login").val();
-          var input_level = jQuery("#add_student_level").val();
-          var input_language = jQuery("#add_student_language").val();
-
-          jQuery("#box_students tbody").append(
-            '<tr><td width="0%"><center>' +
-            input_login
-             + '</center></td><td width="0%"><center>'+
-            input_level
-             +'</center></td><td width="0%"><center>'+
-            input_language
-             +'</center></td><td width="0%"><center><a class="button remove-row" onclick="jQuery(this).RemoveTr();" href="#id_meta_box_class_students">Remove</a></center></td></tr>'
-          );
-          jQuery("#add_student_login").val('');
-          jQuery("#add_student_level").val('');
-          jQuery("#add_student_language").val('');
-        });
     		return false;
     	});
     	</script>
@@ -90,7 +72,7 @@ function load_job_listing_class_metaboxes() {
             <?php
             if($current_user->roles[0]=='administrator') {
               ?>
-              <th width="0%">Action</th>
+              <th width="0%">Remove</th>
               <?php
             }
              ?>
@@ -102,46 +84,23 @@ function load_job_listing_class_metaboxes() {
       foreach ($class_students as $student) {
         echo '<tr>';
           echo '<td width="0%">';
-          printf(esc_html__('<center>'.$student["login"].'</center>','badges-issuer-for-wp'));
+            echo '<center>'.$student['login'].'</center>';
           echo '</td>';
           echo '<td width="0%">';
-            printf(esc_html__('<center>'/$student["level"].'</center>','badges-issuer-for-wp'));
+            echo '<center>'.$student['level'].'</center>';
           echo '</td>';
           echo '<td width="0%">';
-            printf(esc_html__('<center>'.$student["language"].'</center>','badges-issuer-for-wp'));
+            echo '<center>'.$student['language'].'</center>';
           echo '</td>';
           if($current_user->roles[0]=='administrator') {
             echo '<td width="0%">';
-            printf(esc_html__('<center><a class="button remove-row" onclick="jQuery(this).RemoveTr();" href="#id_meta_box_class_students">Remove</a></center>','badges-issuer-for-wp'));
+            echo '<center><a class="button remove-row" onclick="jQuery(this).RemoveTr();" href="#id_meta_box_class_students">Remove</a></center>';
             echo '</td>';
           }
         echo '</tr>';
         $i++;
       }
-
-      echo '</tbody>';
-
-      if($current_user->roles[0]=='administrator') {
-
-      echo '<tfoot>';
-      echo '<tr>';
-      echo '<td width="0%">';
-      echo '<input type="text" id="add_student_login"/>';
-      echo '</td>';
-      echo '<td width="0%">';
-      echo '<input type="text" id="add_student_level"/>';
-      echo '</td>';
-      echo '<td width="0%">';
-      echo '<input type="text" id="add_student_language"/>';
-      echo '</td>';
-      echo '<td width="0%">';
-      echo '<a class="button" href="#" id="add_student_job_listing">Add student</a>';
-      echo '</td>';
-      echo '</tr>';
-      echo '</tfoot>';
-      }
-
-      echo '</table>';
+      echo '</tbody></table>';
     }
 
     /* Adds the meatbox level of the class.*/

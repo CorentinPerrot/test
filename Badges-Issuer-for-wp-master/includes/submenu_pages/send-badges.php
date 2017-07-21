@@ -46,8 +46,6 @@
      * @since 1.0.0
      */
     function send_badges_page_callback() {
-      global $current_user;
-      get_currentuserinfo();
     ?>
       <script>
         jQuery(document).ready(function(jQuery) {
@@ -59,33 +57,23 @@
         });
       </script>
 
-      <h1><span class="dashicons dashicons-awards"></span>Send Badges</h1>
       <div id="tabs">
-        <h2>To whom do you want to send the badge ?</h2>
         <div id="tabs-elements">
           <ul>
             <li><a href="#tabs-1"><div class="tab-element">Self</div></a></li>
-            <?php
-            if($current_user->roles[0]=="teacher" || $current_user->roles[0]=="academy" || $current_user->roles[0]=="administrator" ) {
-            ?>
             <li><a href="#tabs-2"><div class="tab-element">Issue</div></a></li>
             <li><a href="#tabs-3"><div class="tab-element">Multiple issue</div></a></li>
-            <?php } ?>
           </ul>
         </div>
         <div id="tabs-1">
           <?php tab_self(); ?>
         </div>
-        <?php
-        if($current_user->roles[0]=="teacher" || $current_user->roles[0]=="academy" || $current_user->roles[0]=="administrator" ) {
-        ?>
         <div id="tabs-2">
           <?php tab_issue(); ?>
         </div>
         <div id="tabs-3">
           <?php tab_multiple_issues(); ?>
         </div>
-        <?php } ?>
       </div>
       <?php
       // Traitement of form, a mail is sent to the student.
@@ -146,7 +134,6 @@
      * @since 1.0.0
      */
     function tab_self() {
-      apply_css_styles();
       ?>
 
       <div class="tab-content">
@@ -159,14 +146,11 @@
         // get all badges that exist
         $badges = get_all_badges();
 
-        display_levels_radio_buttons($badges, "self");
+        display_levels_radio_buttons($badges);
         echo '<div id="select_badge"></div>';
 
         echo '<br /><br />';
-        echo '<div id="languages_form_a">';
-        display_languages_select_form($just_most_important_languages=true);
-        echo '</div>';
-        echo '<a href="#" id="display_languages_a">Display all languages</a>';
+        display_languages_select_form();
         echo '<br /><br />';
         ?>
         <input type="hidden" name="mail" value="<?php echo $current_user->user_email; ?>" />
@@ -205,14 +189,11 @@
           // get all badges that exist
           $badges = get_all_badges();
 
-          display_levels_radio_buttons($badges, "send");
+          display_levels_radio_buttons($badges);
           echo '<div id="select_badge"></div>';
 
           echo '<br /><br />';
-          echo '<div id="languages_form_b">';
-          display_languages_select_form($just_most_important_languages=true);
-          echo '</div>';
-          echo '<a href="#" id="display_languages_b">Display all languages</a>';
+          display_languages_select_form();
           echo '<br /><br />';
           ?>
           <label for="mail"><b>Receiver's mail adress* : </b></label><br />
@@ -257,14 +238,11 @@
           // get all badges that exist
           $badges = get_all_badges();
 
-          display_levels_radio_buttons($badges, "send");
+          display_levels_radio_buttons($badges);
           echo '<div id="select_badge"></div>';
 
           echo '<br /><br />';
-          echo '<div id="languages_form_c">';
-          display_languages_select_form($just_most_important_languages=true);
-          echo '</div>';
-          echo '<a href="#" id="display_languages_c">Display all languages</a>';
+          display_languages_select_form();
           ?>
           <br /><br />
           <label for="mail"><b>Receivers' mail adresses* (one mail adress per line) : </b></label><br />

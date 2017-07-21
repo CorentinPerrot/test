@@ -142,17 +142,11 @@ function get_all_levels($badges, $only_student=false) {
  * @return $level The level of bagdes to find.
 */
 
-function get_all_badges_level($badges, $level, $certification=false) {
+function get_all_badges_level($badges, $level) {
   $badges_corresponding = array();
   foreach ($badges as $badge) {
-    if(get_post_meta($badge->ID,"_level",true)==$level) {
-      if(get_post_meta($badge->ID,'_certification',true)=="certified") {
-        if($certification)
-          $badges_corresponding[] = $badge;
-      }
-      else
-        $badges_corresponding[] = $badge;
-    }
+    if(get_post_meta($badge->ID,"_level",true)==$level)
+      $badges_corresponding[] = $badge;
   }
   return $badges_corresponding;
 }
@@ -167,30 +161,19 @@ function get_all_badges_level($badges, $level, $certification=false) {
 function get_all_languages() {
   $mostimportantlanguages = array();
   $languages = array();
-
-  $term_mil = get_term_by('slug', 'most-important-languages', 'job_listing_category');
-  $id_mil = $term_mil->term_id;
-  $term_ol = get_term_by('slug', 'other-languages', 'job_listing_category');
-  $id_ol = $term_ol->term_id;
-
-  $languages_mil = get_terms( array(
-    'taxonomy' => 'job_listing_category',
-    'hide_empty' => false,
-    'child_of' => $id_mil
-  ));
-
-  foreach ($languages_mil as $language_mil) {
-    $mostimportantlanguages[] = $language_mil->name;
-  }
-
-  $languages_ol = get_terms( array(
-    'taxonomy' => 'job_listing_category',
-    'hide_empty' => false,
-    'child_of' => $id_ol
-  ));
-
-  foreach ($languages_ol as $language_ol) {
-    $languages[] = $language_ol->name;
+  $handle = fopen(plugin_dir_path( dirname( __FILE__ ) )."languages/languagesSorted.tab", "r");
+  $handle2 = fopen(plugin_dir_path(dirname(__FILE__))."languages/mostImportantLanguages.tab", "r");
+  if ($handle && $handle2) {
+    while (($line = fgets($handle)) !== false) {
+      $languages[] = substr(strstr($line,"	"), 1);
+    }
+    while (($line = fgets($handle2)) !== false) {
+      $mostimportantlanguages[] = substr(strstr($line,"	"), 1);
+    }
+    fclose($handle);
+    fclose($handle2);
+  } else {
+    echo "Error : Can't open languages files !";
   }
 
   $all_languages = array($mostimportantlanguages, $languages);

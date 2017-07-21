@@ -63,11 +63,11 @@ function meta_box_certification($post){
 
   echo '<input type="radio" value="not_certified" name="certification_input"';
   check($val, 'not_certified');
-  printf(__('> Not certified<br>','badges-issuer-for-wp'));
+  echo '> Not certified<br>';
 
   echo '<input type="radio" value="certified" name="certification_input"';
   check($val, 'certified');
-  printf(__('> Certified<br>','badges-issuer-for-wp'));
+  echo '> Certified<br>';
 
 }
 
@@ -84,11 +84,11 @@ function meta_box_type($post){
 
   echo '<input type="radio" value="student" name="type_input"';
   check($val, 'student');
-  printf(__('> Student<br>','badges-issuer-for-wp'));
+  echo '> Student<br>';
 
   echo '<input type="radio" value="teacher" name="type_input"';
   check($val, 'teacher');
-  printf(__('> Teacher<br>','badges-issuer-for-wp'));
+  echo '> Teacher<br>';
 
 }
 

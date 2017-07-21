@@ -8,24 +8,14 @@
  * @since 1.0.0
  * @param $badges A list of badges.
 */
-function display_levels_radio_buttons($badges, $context) {
+function display_levels_radio_buttons($badges) {
   global $current_user;
   get_currentuserinfo();
 
-  if($current_user->roles[0]=="administrator")
+  if($current_user->roles[0]!="administrator")
+    $levels = get_all_levels($badges, true);
+  else
     $levels = get_all_levels($badges);
-  else {
-    if($context=="self") {
-      if($current_user->roles[0]=="student")
-        $levels = get_all_levels($badges, true);
-      elseif ($current_user->roles[0]=="teacher" || $current_user->roles[0]=="academy")
-        $levels = get_all_levels($badges);
-    }
-    elseif ($context=="send") {
-      if ($current_user->roles[0]=="teacher" || $current_user->roles[0]=="academy")
-        $levels = get_all_levels($badges, true);
-    }
-  }
 
   echo '<b>Level* :</b><br />';
   foreach ($levels as $l) {
@@ -142,7 +132,7 @@ function display_classes_input() {
   else
     $classes = get_classes_teacher($current_user->user_login);
 
-  printf(esc_html__( '<b>Class* : </b><br />','badges-issuer-for-wp'));
+  echo '<b>Class* : </b><br />';
   $i = 1;
   foreach ($classes as $class) {
     echo '<label for="class_'.$class->ID.'">'.$class->post_title.' </label><input name="class_for_student" id="class_'.$class->ID.'" type="radio" value="'.$class->ID.'"';
